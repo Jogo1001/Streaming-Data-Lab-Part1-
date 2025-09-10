@@ -113,6 +113,11 @@ static public class AssignmentPart1
 
 }
 
+public partial class partycharacter
+{
+
+}
+
 
 #endregion
 
