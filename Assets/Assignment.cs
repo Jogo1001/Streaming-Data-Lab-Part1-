@@ -84,8 +84,8 @@ static public class AssignmentPart1
             foreach (PartyCharacter pc in GameContent.partyCharacters)
             {
 
-                writer.WriteLine(pc.classID);
-                //Debug.Log("PC class id == " + pc.classID);
+                writer.WriteLine($"{pc.classID},{pc.health},{pc.mana},{pc.strength},{pc.agility},{pc.wisdom}");
+               
             }
         }
         Debug.Log("test"+path);
@@ -94,16 +94,21 @@ static public class AssignmentPart1
 
     static public void LoadPartyButtonPressed()
     {
+        string path = Path.Combine(Application.persistentDataPath, "party.txt");
+
+        if (!File.Exists(path))
+        {
+            Debug.LogWarning("File not found at " + path);
+            return;
+        }
+
         GameContent.partyCharacters.Clear();
 
-        PartyCharacter pc = new PartyCharacter(1, 10, 10, 10, 10, 10);
-        GameContent.partyCharacters.AddLast(pc);
-        pc = new PartyCharacter(2, 11, 11, 11, 11, 11);
-        GameContent.partyCharacters.AddLast(pc);
-        pc = new PartyCharacter(3, 12, 12, 12, 12, 12);
-        GameContent.partyCharacters.AddLast(pc);
+        using (StreamReader sr = new StreamReader(path))
+        {
 
-        GameContent.RefreshUI();
+
+        }
     }
 
 }
