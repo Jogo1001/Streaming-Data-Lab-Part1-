@@ -111,10 +111,25 @@ static public class AssignmentPart1
             string spacing;
             while((spacing = sr.ReadLine()) != null)
             {
+                string[] Chracter_parts = spacing.Split(',');
+
+                int Chracter_classID = int.Parse(Chracter_parts[0]);
+                int Character_health = int.Parse(Chracter_parts[1]);
+                int Character_mana = int.Parse(Chracter_parts[2]);
+                int Character_strength = int.Parse(Chracter_parts[3]);
+                int Character_agility = int.Parse(Chracter_parts[4]);
+                int Character_wisdom = int.Parse(Chracter_parts[5]);
+
+                
+                PartyCharacter P_Character = new PartyCharacter();
+                GameContent.partyCharacters.AddLast(P_Character);
 
             }
 
         }
+
+
+
     }
 
 
