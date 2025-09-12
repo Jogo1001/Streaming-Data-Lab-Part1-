@@ -76,7 +76,9 @@ static public class AssignmentPart1
    
     static public void SavePartyButtonPressed()
     {
-        string path = Path.Combine(Application.persistentDataPath, "");
+
+        //save characters into party.txt
+        string path = Path.Combine(Application.persistentDataPath, "party.txt");
 
 
         using (StreamWriter writer = new StreamWriter(path))
@@ -98,7 +100,7 @@ static public class AssignmentPart1
 
         if (!File.Exists(path))
         {
-            Debug.LogWarning("File not found at " + path);
+            Debug.LogWarning("Characters not found at " + path);
             return;
         }
 
@@ -106,17 +108,19 @@ static public class AssignmentPart1
 
         using (StreamReader sr = new StreamReader(path))
         {
+            string spacing;
+            while((spacing = sr.ReadLine()) != null)
+            {
 
+            }
 
         }
     }
 
-}
 
-public partial class partycharacter
-{
 
 }
+
 
 
 #endregion
