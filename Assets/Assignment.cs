@@ -80,9 +80,11 @@ static public class AssignmentPart1
         //save characters into party.txt
         string path = Path.Combine(Application.persistentDataPath, "party.txt");
 
-
+        // creates a file for characters
         using (StreamWriter writer = new StreamWriter(path))
         {
+
+            // for each party character in gamecontent, it loops every character in the party
             foreach (PartyCharacter pc in GameContent.partyCharacters)
             {
 
@@ -90,28 +92,40 @@ static public class AssignmentPart1
                
             }
         }
-        Debug.Log("test"+path);
+        // save testing
+        Debug.Log("Test Save CHaracters"+path);
 
     }
 
     static public void LoadPartyButtonPressed()
     {
+        // build a file txt for characters
         string path = Path.Combine(Application.persistentDataPath, "party.txt");
 
+
+        // if there's no file exist in "path", if its true, return
         if (!File.Exists(path))
         {
             Debug.LogWarning("Characters not found at " + path);
             return;
         }
 
+        // Remove Duplicate CHaracters file
         GameContent.partyCharacters.Clear();
 
+
+        // if charactes file is exist in path
         using (StreamReader sr = new StreamReader(path))
         {
+
             string spacing;
+
+
             while((spacing = sr.ReadLine()) != null)
             {
                 string[] Chracter_parts = spacing.Split(',');
+
+
 
                 int Chracter_classID = int.Parse(Chracter_parts[0]);
                 int Character_health = int.Parse(Chracter_parts[1]);
@@ -121,13 +135,20 @@ static public class AssignmentPart1
                 int Character_wisdom = int.Parse(Chracter_parts[5]);
 
                 
-                PartyCharacter P_Character = new PartyCharacter();
+                // construct a new party
+                PartyCharacter P_Character = new PartyCharacter(Chracter_classID, Character_health, Character_mana
+                                                                , Character_strength, Character_agility, Character_wisdom);
+
+                // after contruct a new party, it add the loaded charactesr to Linkedlist in party character function
                 GameContent.partyCharacters.AddLast(P_Character);
 
             }
 
         }
-
+        // refresh gamecontent to load the saved characters
+        GameContent.RefreshUI();
+        //test for characters load
+        Debug.Log("Test Load Characters" +  path);
 
 
     }
