@@ -90,6 +90,20 @@ static public class AssignmentPart1
 
                 writer.WriteLine($"{pc.classID},{pc.health},{pc.mana},{pc.strength},{pc.agility},{pc.wisdom}");
                
+
+                // loop, if character equipment is null and characters count is greater than zero, if it is true or the character-
+                // has equipment ----> save, otherwise null.
+                if(pc.equipment != null && pc.equipment.Count > 0 )
+                {
+
+                    foreach (int Character_Equipment in pc.equipment)
+                    {
+                        writer.Write($",{Character_Equipment}");
+                    }
+
+                }
+                writer.WriteLine();
+             
             }
         }
         // save testing
