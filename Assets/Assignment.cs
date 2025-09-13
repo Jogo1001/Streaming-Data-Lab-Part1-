@@ -88,7 +88,7 @@ static public class AssignmentPart1
             foreach (PartyCharacter pc in GameContent.partyCharacters)
             {
 
-                writer.WriteLine($"{pc.classID},{pc.health},{pc.mana},{pc.strength},{pc.agility},{pc.wisdom}");
+                writer.Write($"{pc.classID},{pc.health},{pc.mana},{pc.strength},{pc.agility},{pc.wisdom}");
                
 
                 // loop, if character equipment is null and characters count is greater than zero, if it is true or the character-
@@ -96,9 +96,9 @@ static public class AssignmentPart1
                 if(pc.equipment != null && pc.equipment.Count > 0 )
                 {
 
-                    foreach (int Character_Equipment in pc.equipment)
+                    foreach (int eq in pc.equipment)
                     {
-                        writer.Write($",{Character_Equipment}");
+                        writer.Write($",{eq}");
                     }
 
                 }
@@ -141,6 +141,12 @@ static public class AssignmentPart1
 
 
 
+                if(Chracter_parts.Length < 6)
+                {
+                    Debug.LogWarning("Error" + spacing);
+                    continue;
+                }
+
                 int Chracter_classID = int.Parse(Chracter_parts[0]);
                 int Character_health = int.Parse(Chracter_parts[1]);
                 int Character_mana = int.Parse(Chracter_parts[2]);
@@ -153,6 +159,20 @@ static public class AssignmentPart1
                 PartyCharacter P_Character = new PartyCharacter(Chracter_classID, Character_health, Character_mana
                                                                 , Character_strength, Character_agility, Character_wisdom);
 
+                //Equipment Load
+                LinkedList<int> Equipment_List = new LinkedList<int>();
+                for ( int i = 6; i < Chracter_parts.Length; i++)
+                {
+
+                    if(!string.IsNullOrWhiteSpace(Chracter_parts[i]))
+                    {
+                        Equipment_List.AddLast(int.Parse(Chracter_parts[i]));
+                    }
+
+                }
+
+
+                P_Character.equipment = Equipment_List;
                 // after contruct a new party, it add the loaded charactesr to Linkedlist in party character function
                 GameContent.partyCharacters.AddLast(P_Character);
 
