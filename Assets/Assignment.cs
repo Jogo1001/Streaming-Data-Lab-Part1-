@@ -278,8 +278,29 @@ static public class AssignmentPart2
         GameContent.RefreshUI();
     }
 
+    static string MakeSafeFileName(string rawName)
+    {
+        foreach (char c in Path.GetInvalidFileNameChars())
+            rawName = rawName.Replace(c, '_');
+        return rawName;
+    }
     static public void SavePartyButtonPressed()
     {
+
+        string partyName = GameContent.GetPartyNameFromInput(); 
+        if (string.IsNullOrWhiteSpace(partyName)) return;
+
+        string safeFile = MakeSafeFileName(partyName) + ".party";
+        string path = Path.Combine(Character_Parties_Folder, safeFile);
+
+        using (StreamWriter writer = new StreamWriter(path))
+        {
+
+
+
+        }
+        if (!listOfPartyNames.Contains(partyName))
+            listOfPartyNames.Add(partyName);
         GameContent.RefreshUI();
     }
 
