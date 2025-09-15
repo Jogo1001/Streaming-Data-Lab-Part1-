@@ -242,12 +242,15 @@ Good luck, journey well.
 
 static public class AssignmentPart2
 {
-
+    // store all the party names
     static List<string> listOfPartyNames;
+
+    // directory path  where all party characters are stored
     static string Character_Parties_Folder;
 
     static string MakeSafeFileName(string rawName)
     {
+        //
         foreach (char c in Path.GetInvalidFileNameChars())
             rawName = rawName.Replace(c, '_');
         return rawName;
@@ -255,10 +258,15 @@ static public class AssignmentPart2
 
     static public void GameStart()
     {
+        // when the game starts, it looks in folder called " Parties " and then, it reads each file to get the -
+        // party names
         Character_Parties_Folder = Path.Combine(Application.persistentDataPath, "Parties");
         if(!Directory.Exists(Character_Parties_Folder))
             Directory.CreateDirectory(Character_Parties_Folder);
 
+
+        // for each " characters_file " in characters folder, it reads  each file to get the character party-
+        // names and stores it in a list
         listOfPartyNames = new List<string>();
         foreach(string Charaters_File in Directory.GetFiles(Character_Parties_Folder, "*.party"))
         {
@@ -266,7 +274,7 @@ static public class AssignmentPart2
                 listOfPartyNames.Add(sr.ReadLine());
         }
 
-
+        // then updates the ui
         GameContent.RefreshUI();
     }
 
@@ -282,11 +290,19 @@ static public class AssignmentPart2
         string path = Path.Combine(Character_Parties_Folder, Character_Safe_file);
         if (!File.Exists(path)) return;
 
+
+        // if you pick a party that you saved from the dropdown, it will find a correct file for that party
+        // and then, reads the party's name and all the characters in that party.
+        // ---> loads the characters and their equipment into the game
         using (StreamReader sr = new StreamReader(path))
         {
+
+
             sr.ReadLine(); 
             GameContent.partyCharacters.Clear();
             string line;
+
+     
             while ((line = sr.ReadLine()) != null)
             {
                 string[] parts = line.Split(',');
@@ -310,20 +326,21 @@ static public class AssignmentPart2
                 GameContent.partyCharacters.AddLast(pc);
             }
         }
-
-
+        ////////////////////////////////////////
+        // updates the ui 
         GameContent.RefreshUI();
     }
 
     static public void SavePartyButtonPressed()
     {
-
+        // if you click the save button
         string Party_name = GameContent.GetPartyNameFromInput(); 
         if (string.IsNullOrWhiteSpace(Party_name)) return;
 
+        // it saves all the characters in your party and their items
+        // and then, it adds the party name that you save to the list if its new.
         string Party_Safe_File = MakeSafeFileName(Party_name) + ".party";
         string path = Path.Combine(Character_Parties_Folder, Party_Safe_File);
-
         using (StreamWriter writer = new StreamWriter(path))
         {
 
@@ -341,15 +358,30 @@ static public class AssignmentPart2
         }
         if (!listOfPartyNames.Contains(Party_name))
             listOfPartyNames.Add(Party_name);
+
+        // updates the ui
         GameContent.RefreshUI();
     }
 
     static public void DeletePartyButtonPressed(string selectedName)
     {
+
+
         string Party_file = MakeSafeFileName(selectedName) + ".party";
         string path = Path.Combine(Character_Parties_Folder, Party_file);
 
+        // if you click the delete button
+        //  it will find the file for that party and deletes it.
 
+        if (File.Exists(path))
+            File.Delete(path);
+
+        // it clears the loaded characters from the game
+        listOfPartyNames.Remove(selectedName);
+        GameContent.partyCharacters.Clear();
+
+
+        // update ui
         GameContent.RefreshUI();
     }
 

@@ -213,11 +213,30 @@ public class SystemManager : MonoBehaviour
 
     public void DeleteButtonPressed()
     {
+
+        // this one's a small function that deletes teh party in dropdown menu
+       
         Dropdown Drop_down = loadPartyDropDown.GetComponent<Dropdown>();
+        // for example, if you select the second party, that will be 1 because index start at zero
         int Menu_index = Drop_down.value;
         List<Dropdown.OptionData> Menu_options = Drop_down.options;
 
+        // if menu options is null or menu options count is equal to zero, 
+        // ogs a warning " no partyies in dropdown"
+        if (Menu_options == null || Menu_options.Count == 0)
+        {
+            Debug.LogWarning("No parties in dropdown to delete");
+            return;
+        }
+        // if somehow that index is invalid ---->> return
+        if (Menu_index < 0 || Menu_index >= Menu_options.Count)
+        {
+            Debug.LogWarning("Dropdown index out of range");
+            return;
+        }
 
+
+        // class function to delete the party
         string Selected_Party_name = Menu_options[Menu_index].text;
         AssignmentPart2.DeletePartyButtonPressed(Selected_Party_name);
     }
