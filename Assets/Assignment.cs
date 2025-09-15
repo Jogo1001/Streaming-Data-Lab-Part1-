@@ -275,6 +275,14 @@ static public class AssignmentPart2
 
     static public void LoadPartyDropDownChanged(string selectedName)
     {
+
+        string Character_Safe_file = MakeSafeFileName(selectedName) + ".party";
+        string path = Path.Combine(Character_Parties_Folder, Character_Safe_file);
+        if (!File.Exists(path)) return;
+
+
+
+
         GameContent.RefreshUI();
     }
 
