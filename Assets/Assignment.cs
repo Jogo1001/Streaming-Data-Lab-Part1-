@@ -246,7 +246,12 @@ static public class AssignmentPart2
     static List<string> listOfPartyNames;
     static string Character_Parties_Folder;
 
-
+    static string MakeSafeFileName(string rawName)
+    {
+        foreach (char c in Path.GetInvalidFileNameChars())
+            rawName = rawName.Replace(c, '_');
+        return rawName;
+    }
 
     static public void GameStart()
     {
@@ -261,9 +266,6 @@ static public class AssignmentPart2
                 listOfPartyNames.Add(sr.ReadLine());
         }
 
-        listOfPartyNames.Add("sample 1");
-        listOfPartyNames.Add("sample 2");
-        listOfPartyNames.Add("sample 3");
 
         GameContent.RefreshUI();
     }
@@ -280,18 +282,39 @@ static public class AssignmentPart2
         string path = Path.Combine(Character_Parties_Folder, Character_Safe_file);
         if (!File.Exists(path)) return;
 
+        using (StreamReader sr = new StreamReader(path))
+        {
+            sr.ReadLine(); 
+            GameContent.partyCharacters.Clear();
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                string[] parts = line.Split(',');
+                if (parts.Length < 6) continue;
 
+                var pc = new PartyCharacter(
+                    int.Parse(parts[0]),
+                    int.Parse(parts[1]),
+                    int.Parse(parts[2]),
+                    int.Parse(parts[3]),
+                    int.Parse(parts[4]),
+                    int.Parse(parts[5])
+                );
+
+                var Characters_equipments = new LinkedList<int>();
+                for (int i = 6; i < parts.Length; i++)
+                    if (!string.IsNullOrWhiteSpace(parts[i]))
+                        Characters_equipments.AddLast(int.Parse(parts[i]));
+                pc.equipment = Characters_equipments;
+
+                GameContent.partyCharacters.AddLast(pc);
+            }
+        }
 
 
         GameContent.RefreshUI();
     }
 
-    static string MakeSafeFileName(string rawName)
-    {
-        foreach (char c in Path.GetInvalidFileNameChars())
-            rawName = rawName.Replace(c, '_');
-        return rawName;
-    }
     static public void SavePartyButtonPressed()
     {
 
@@ -303,6 +326,9 @@ static public class AssignmentPart2
 
         using (StreamWriter writer = new StreamWriter(path))
         {
+
+            writer.WriteLine(Party_name);
+
             foreach (PartyCharacter Parcty_Characters in GameContent.partyCharacters)
             {
                 writer.Write($"{Parcty_Characters.classID},{Parcty_Characters.health},{Parcty_Characters.mana},{Parcty_Characters.strength},{Parcty_Characters.agility},{Parcty_Characters.wisdom}");
