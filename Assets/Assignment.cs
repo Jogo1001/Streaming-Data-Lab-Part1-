@@ -204,7 +204,7 @@ static public class AssignmentPart1
 //  This will enable the needed UI/function calls for your to proceed with your assignment.
 static public class AssignmentConfiguration
 {
-    public const int PartOfAssignmentThatIsInDevelopment = 1;
+    public const int PartOfAssignmentThatIsInDevelopment = 2;
 }
 
 /*
@@ -244,9 +244,16 @@ static public class AssignmentPart2
 {
 
     static List<string> listOfPartyNames;
+    static string Character_Parties_Folder;
+
+
 
     static public void GameStart()
     {
+        Character_Parties_Folder = Path.Combine(Application.persistentDataPath, "Parties");
+        if(!Directory.Exists(Character_Parties_Folder))
+            Directory.CreateDirectory(Character_Parties_Folder);
+
         listOfPartyNames = new List<string>();
         listOfPartyNames.Add("sample 1");
         listOfPartyNames.Add("sample 2");
