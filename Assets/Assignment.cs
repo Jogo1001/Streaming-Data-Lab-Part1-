@@ -287,20 +287,26 @@ static public class AssignmentPart2
     static public void SavePartyButtonPressed()
     {
 
-        string partyName = GameContent.GetPartyNameFromInput(); 
-        if (string.IsNullOrWhiteSpace(partyName)) return;
+        string Party_name = GameContent.GetPartyNameFromInput(); 
+        if (string.IsNullOrWhiteSpace(Party_name)) return;
 
-        string safeFile = MakeSafeFileName(partyName) + ".party";
-        string path = Path.Combine(Character_Parties_Folder, safeFile);
+        string Party_Safe_File = MakeSafeFileName(Party_name) + ".party";
+        string path = Path.Combine(Character_Parties_Folder, Party_Safe_File);
 
         using (StreamWriter writer = new StreamWriter(path))
         {
-
-
+            foreach (PartyCharacter Parcty_Characters in GameContent.partyCharacters)
+            {
+                writer.Write($"{Parcty_Characters.classID},{Parcty_Characters.health},{Parcty_Characters.mana},{Parcty_Characters.strength},{Parcty_Characters.agility},{Parcty_Characters.wisdom}");
+                if (Parcty_Characters.equipment != null && Parcty_Characters.equipment.Count > 0)
+                foreach (int eq in Parcty_Characters.equipment)
+                writer.Write($",{eq}");
+                writer.WriteLine();
+            }
 
         }
-        if (!listOfPartyNames.Contains(partyName))
-            listOfPartyNames.Add(partyName);
+        if (!listOfPartyNames.Contains(Party_name))
+            listOfPartyNames.Add(Party_name);
         GameContent.RefreshUI();
     }
 
