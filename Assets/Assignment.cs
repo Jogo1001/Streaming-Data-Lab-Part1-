@@ -344,8 +344,12 @@ static public class AssignmentPart2
         GameContent.RefreshUI();
     }
 
-    static public void DeletePartyButtonPressed()
+    static public void DeletePartyButtonPressed(string selectedName)
     {
+        string Party_file = MakeSafeFileName(selectedName) + ".party";
+        string path = Path.Combine(Character_Parties_Folder, Party_file);
+
+
         GameContent.RefreshUI();
     }
 

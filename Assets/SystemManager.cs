@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -214,7 +213,13 @@ public class SystemManager : MonoBehaviour
 
     public void DeleteButtonPressed()
     {
-        AssignmentPart2.DeletePartyButtonPressed();
+        Dropdown Drop_down = loadPartyDropDown.GetComponent<Dropdown>();
+        int Menu_index = Drop_down.value;
+        List<Dropdown.OptionData> Menu_options = Drop_down.options;
+
+
+        string Selected_Party_name = Menu_options[Menu_index].text;
+        AssignmentPart2.DeletePartyButtonPressed(Selected_Party_name);
     }
 
     public string GetPartyNameFromInput()
