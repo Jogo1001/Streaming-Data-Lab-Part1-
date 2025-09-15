@@ -255,6 +255,12 @@ static public class AssignmentPart2
             Directory.CreateDirectory(Character_Parties_Folder);
 
         listOfPartyNames = new List<string>();
+        foreach(string Charaters_File in Directory.GetFiles(Character_Parties_Folder, "*.party"))
+        {
+            using(StreamReader sr = new StreamReader(Charaters_File)) 
+                listOfPartyNames.Add(sr.ReadLine());
+        }
+
         listOfPartyNames.Add("sample 1");
         listOfPartyNames.Add("sample 2");
         listOfPartyNames.Add("sample 3");
